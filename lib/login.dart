@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-//import 'package:loginpage/register.dart';
+import 'package:loginpage/register.dart';
+import 'package:toast/toast.dart';
 
 class Mylogin extends StatefulWidget {
   const Mylogin({Key? key}) : super(key: key);
@@ -10,6 +12,23 @@ class Mylogin extends StatefulWidget {
 }
 
 class _MyloginState extends State<Mylogin> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future signin() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+    );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _passwordController.dispose();
+    _emailController.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,8 +47,14 @@ class _MyloginState extends State<Mylogin> {
           children: [
             Container(
               padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.1,
-                  top: MediaQuery.of(context).size.height * 0.1),
+                  left: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.1,
+                  top: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.1),
               child: Text("Welcome ",
                   style: GoogleFonts.bebasNeue(
                     fontSize: 60,
@@ -39,9 +64,18 @@ class _MyloginState extends State<Mylogin> {
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.1,
-                    top: MediaQuery.of(context).size.height * 0.3,
-                    right: MediaQuery.of(context).size.width * 0.1),
+                    left: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.1,
+                    top: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.3,
+                    right: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.1),
                 child: Column(
                   children: [
                     Row(
@@ -50,7 +84,7 @@ class _MyloginState extends State<Mylogin> {
                         Text(
                           "LOG",
                           style:
-                              TextStyle(color: Colors.red[800], fontSize: 30),
+                          TextStyle(color: Colors.red[800], fontSize: 30),
                         ),
                         Text(
                           'in',
@@ -62,10 +96,14 @@ class _MyloginState extends State<Mylogin> {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.02,
                     ),
                     TextField(
                       style: TextStyle(fontSize: 20),
+                      controller: _emailController,
                       decoration: InputDecoration(
                           hintText: "Email:",
                           fillColor: Colors.teal,
@@ -73,11 +111,15 @@ class _MyloginState extends State<Mylogin> {
                               borderRadius: BorderRadius.circular(30))),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.02,
                     ),
                     TextField(
                       obscureText: true,
                       style: TextStyle(fontSize: 20),
+                      controller: _passwordController,
                       decoration: InputDecoration(
                           fillColor: Colors.teal,
                           hintText: "Password:",
@@ -85,7 +127,10 @@ class _MyloginState extends State<Mylogin> {
                               borderRadius: BorderRadius.circular(30))),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.03,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.03,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -101,7 +146,7 @@ class _MyloginState extends State<Mylogin> {
                           radius: 25,
                           backgroundColor: Colors.teal,
                           child: IconButton(
-                            onPressed: () {},
+                            onPressed: signin,
                             icon: Icon(Icons.arrow_forward),
                           ),
                         )
