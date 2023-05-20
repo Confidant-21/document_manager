@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:loginpage/register.dart';
-import 'package:toast/toast.dart';
+import 'forget_password.dart';
+import 'package:snackbar/snackbar.dart';
 
 class Mylogin extends StatefulWidget {
   const Mylogin({Key? key}) : super(key: key);
@@ -17,9 +17,12 @@ class _MyloginState extends State<Mylogin> {
 
   Future signin() async {
     await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
     );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Successfully Signed In"),behavior:SnackBarBehavior.floating,));
+    Navigator.pushNamed(context, 'home_page');
   }
 
   @override
@@ -29,6 +32,7 @@ class _MyloginState extends State<Mylogin> {
     _passwordController.dispose();
     _emailController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,40 +46,25 @@ class _MyloginState extends State<Mylogin> {
           ),
           backgroundColor: Colors.transparent,
         ),
-        backgroundColor: Colors.white70,
+        backgroundColor: Colors.transparent,
         body: Stack(
           children: [
             Container(
               padding: EdgeInsets.only(
-                  left: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.1,
-                  top: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.1),
+                  left: MediaQuery.of(context).size.width * 0.1,
+                  top: MediaQuery.of(context).size.height * 0.1),
               child: Text("Welcome ",
                   style: GoogleFonts.bebasNeue(
                     fontSize: 60,
-                    color: Colors.black87,
+                    color: Colors.white60,
                   )),
             ),
             SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.only(
-                    left: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.1,
-                    top: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.3,
-                    right: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.1),
+                    left: MediaQuery.of(context).size.width * 0.1,
+                    top: MediaQuery.of(context).size.height * 0.3,
+                    right: MediaQuery.of(context).size.width * 0.1),
                 child: Column(
                   children: [
                     Row(
@@ -84,7 +73,7 @@ class _MyloginState extends State<Mylogin> {
                         Text(
                           "LOG",
                           style:
-                          TextStyle(color: Colors.red[800], fontSize: 30),
+                              TextStyle(color: Colors.red[800], fontSize: 30),
                         ),
                         Text(
                           'in',
@@ -96,10 +85,7 @@ class _MyloginState extends State<Mylogin> {
                       ],
                     ),
                     SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.02,
+                      height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     TextField(
                       style: TextStyle(fontSize: 20),
@@ -107,14 +93,14 @@ class _MyloginState extends State<Mylogin> {
                       decoration: InputDecoration(
                           hintText: "Email:",
                           fillColor: Colors.teal,
+                          icon: Icon(
+                            Icons.email_rounded,
+                          ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30))),
                     ),
                     SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.02,
+                      height: MediaQuery.of(context).size.height * 0.02,
                     ),
                     TextField(
                       obscureText: true,
@@ -123,14 +109,15 @@ class _MyloginState extends State<Mylogin> {
                       decoration: InputDecoration(
                           fillColor: Colors.teal,
                           hintText: "Password:",
+                          icon: Icon(
+                            Icons.password_rounded
+
+                          ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30))),
                     ),
                     SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.03,
+                      height: MediaQuery.of(context).size.height * 0.03,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -171,7 +158,12 @@ class _MyloginState extends State<Mylogin> {
                               ),
                             )),
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context,'forgetpassword');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Forget Password"))
+                              );
+                            },
                             child: Text(
                               "Forget Password",
                               style: TextStyle(
